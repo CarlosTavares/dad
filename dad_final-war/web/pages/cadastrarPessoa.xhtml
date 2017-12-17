@@ -1,0 +1,105 @@
+<!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Transitional//EN" 
+    "http://www.w3.org/TR/xhtml1/DTD/xhtml1-transitional.dtd">
+<html xmlns="http://www.w3.org/1999/xhtml"
+      xmlns:ui="http://java.sun.com/jsf/facelets"
+      xmlns:h="http://java.sun.com/jsf/html"
+      xmlns:f="http://java.sun.com/jsf/core">
+    <ui:composition template="/WEB-INF/templates/BasicTemplate.xhtml">
+        <ui:define name="content">
+            <h3 class="page-header"><h:outputText value="Cadastrar Pessoa"/></h3>
+            <h:form id="cadastraPessoaForm" >
+                <div class="row">
+                    <div class="form-group col-md-4">
+                        <h:outputLabel for="nome" >Nome:</h:outputLabel>
+                        <h:inputText id="nome" value="#{mbpessoa.pessoa.nome}" class="form-control" 
+                                     required="true" requiredMessage="O Nome não pode ser vazio" />
+                    </div>
+                    <h:message for="nome" styleClass="text text-danger" />
+                </div>
+                <div class="row">
+                    <div class="form-group col-md-4">
+                        <h:outputLabel for="ocupacao" >Ocupação:</h:outputLabel>
+                        <h:inputText id="ocupacao" value="#{mbpessoa.pessoa.ocupacao}" class="form-control" 
+                                     required="true" requiredMessage="A ocupação não pode ser vazia" />
+                    </div>
+                    <h:message for="ocupacao" styleClass="text text-danger" />
+                </div>
+                <div class="row">
+                    <div class="form-group col-md-4">
+                        <h:outputLabel for="nascimento" >Nascimento:</h:outputLabel>
+                        <h:inputText id="nascimento" value="#{mbpessoa.pessoa.nascimento}" class="form-control" 
+                                     required="true" requiredMessage="A data de nascimento não pode ser vazia" >
+                            <f:convertDateTime pattern="dd/MM/yyyy"/>
+                            <f:ajax execute="@this" render="idade"></f:ajax>
+                        </h:inputText>
+                    </div>
+                    <h:message for="nascimento" styleClass="text text-danger" />
+                    <div class="form-group col-md-4">
+                        <h:outputLabel for="idade" >Idade:</h:outputLabel>
+                        <h:outputText id="idade" value="#{mbpessoa.pessoa.idade}" class="form-control" />
+                    </div>
+                    <div class="form-group col-md-4">
+                        <h:outputLabel for="sexo" >Sexo:</h:outputLabel>
+                        <h:inputText id="sexo" value="#{mbpessoa.pessoa.sexo}" class="form-control" 
+                                     required="true" requiredMessage="O sexo não pode ser vazio" />
+                    </div>
+                </div>
+                <div class="row">
+                    <div class="form-group col-md-4">
+                        <h:outputLabel for="cep" >CEP:</h:outputLabel>
+                        <h:inputText id="cep" value="#{mbpessoa.pessoa.logradouro.cep}" class="form-control" 
+                                     required="true" requiredMessage="O CEP não pode ser vazio" />
+                        <h:commandButton value="encontra cep"  action="#{mbpessoa.consultaCep()}" class="btn btn-primary" >
+                            <f:ajax execute="@this" render="estado,cidade,descLogradouro,bairro" ></f:ajax>
+                        </h:commandButton>
+                    </div>
+                    <h:message for="cep" styleClass="text text-danger" />
+                    <div class="form-group col-md-4">
+                        <h:outputLabel for="estado" >Estado:</h:outputLabel>
+                        <h:selectOneMenu class="form-control" id="estado" value="#{mbpessoa.pessoa.logradouro.cidade.estado}" 
+                                         requiredMessage="O Estado não pode ser vazio" >
+                            <f:selectItem itemLabel="Selecione" itemValue="sn" noSelectionOption="true"/>
+                            <f:selectItems value="#{mbpessoa.estados}" var="varEstado" itemValue="#{varEstado}"
+                                           itemLabel="#{varEstado.nome}" />
+                        </h:selectOneMenu>
+                    </div>
+                    <h:message for="estado" styleClass="text text-danger" />
+                    <div class="form-group col-md-4">
+                        <h:outputLabel for="cidade" >Cidade:</h:outputLabel>
+                        <h:inputText id="cidade" value="#{mbpessoa.pessoa.logradouro.cidade.nome}" class="form-control" 
+                                     required="true" requiredMessage="A Cidade não pode ser vazia" />
+                        <h:selectOneMenu class="form-control" id="cidade" value="#{mbpessoa.pessoa.logradouro.cidade}" 
+                                         requiredMessage="A Cidade não pode ser vazia" >
+                            <f:selectItem itemLabel="Selecione" itemValue="sn" noSelectionOption="true"/>
+                            <f:selectItems value="#{mbpessoa.cidades}" var="varCidade" itemValue="#{varCidade}"
+                                           itemLabel="#{varCidade.nome}" />
+                        </h:selectOneMenu>
+                    </div>
+                    <h:message for="cidade" styleClass="text text-danger" />
+                </div>
+                <div class="row">
+                    <div class="form-group col-md-4">
+                        <h:outputLabel for="descLogradouro" >Logradouro:</h:outputLabel>
+                        <h:inputText id="descLogradouro" value="#{mbpessoa.pessoa.logradouro.descricao}" class="form-control" 
+                                     required="true" requiredMessage="O Logradouro não pode ser vazio" />
+                    </div>
+                    <h:message for="descLogradouro" styleClass="text text-danger" />
+                    <div class="form-group col-md-4">
+                        <h:outputLabel for="bairro" >Bairro:</h:outputLabel>
+                        <h:inputText id="bairro" value="#{mbpessoa.pessoa.logradouro.bairro}" class="form-control" 
+                                     required="true" requiredMessage="O Bairro não pode ser vazio" />
+                    </div>
+                    <h:message for="bairro" styleClass="text text-danger" />
+                </div>
+
+                <hr />
+                <div id="acoes" class="row">
+                    <div class="col-md-12">
+                        <h:commandButton value="Salvar" action="#{mbpessoa.insere()}" class="btn btn-primary" />
+                        <h:outputLink value="listarPessoas.xhtml" class="btn btn-default">Lista de Pessoas</h:outputLink>
+                    </div>
+                </div>
+            </h:form>
+        </ui:define>
+    </ui:composition>
+</html>

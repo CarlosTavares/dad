@@ -1,0 +1,38 @@
+<!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Transitional//EN" 
+    "http://www.w3.org/TR/xhtml1/DTD/xhtml1-transitional.dtd">
+<html xmlns="http://www.w3.org/1999/xhtml"
+      xmlns:ui="http://java.sun.com/jsf/facelets"
+      xmlns:h="http://java.sun.com/jsf/html"
+      xmlns:f="http://xmlns.jcp.org/jsf/core">
+    <ui:composition template="/WEB-INF/templates/BasicTemplate.xhtml">
+        <ui:define name="content">
+            <h3 class="page-header"><h:outputText value="Listar Pessosa"/></h3>
+            <h:form id="listaPessoaForm">
+                <h:dataTable id="pessoaTable" binding="#{table}" value="#{mbpessoa.pessoas}" 
+                             var="pessoa" >
+                    <h:column>
+                        <f:facet name="header">Id</f:facet>
+                        <h:outputText value="#{pessoa.id}" />                
+                    </h:column>
+                    <h:column>
+                        <f:facet name="header">Nome</f:facet>
+                        <h:outputText value="#{pessoa.nome}" />
+                    </h:column>
+                    <h:column>
+                        <f:facet name="header">Editar</f:facet>
+                        <h:commandButton action="#{mbpessoa.edita()}" value="Edita" >
+                            <f:param name="pessoa/id" value="#{pessoa.id}" />
+                        </h:commandButton>
+                    </h:column>
+                    <h:column>
+                        <f:facet name="header">Excluir</f:facet>
+                        <h:commandButton action="#{mbpessoa.exclui(school.id)}" 
+                                         class="btn btn-default" value="exclui" />
+                    </h:column>
+                </h:dataTable>
+                <center><h:commandButton action="cadastrarPessoa.xhtml?faces-redirect=true" value="Cadastrar Pessoa" /></center>
+            </h:form>
+        </ui:define>
+    </ui:composition>
+</html>
+

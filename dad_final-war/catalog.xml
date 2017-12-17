@@ -1,0 +1,4 @@
+<?xml version="1.0" encoding="UTF-8" standalone="no"?>
+<catalog xmlns="urn:oasis:names:tc:entity:xmlns:xml:catalog" prefer="system">
+    <system systemId="https://viacep.com.br/ws/69058050/xml/" uri="src/conf/xml-resources/web-service-references/WsClient/wsdl/viacep.com.br/ws/69058050/xml/index.xml"/>
+</catalog>
