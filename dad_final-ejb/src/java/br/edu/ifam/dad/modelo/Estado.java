@@ -43,4 +43,34 @@ public class Estado implements Serializable {
         this.sigla = sigla;
     }
 
+    @Override
+    public String toString() {
+        return "Estado{" + "id=" + id + ", nome=" + nome + ", sigla=" + sigla + '}';
+    }
+
+    @Override
+    public int hashCode() {
+        int hash = 5;
+        hash = 31 * hash + (this.sigla != null ? this.sigla.hashCode() : 0);
+        return hash;
+    }
+
+    @Override
+    public boolean equals(Object obj) {
+        if (this == obj) {
+            return true;
+        }
+        if (obj == null) {
+            return false;
+        }
+        if (getClass() != obj.getClass()) {
+            return false;
+        }
+        final Estado other = (Estado) obj;
+        if ((this.sigla == null) ? (other.sigla != null) : !this.sigla.equals(other.sigla)) {
+            return false;
+        }
+        return true;
+    }
+
 }

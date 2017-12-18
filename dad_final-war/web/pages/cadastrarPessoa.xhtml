@@ -26,11 +26,11 @@
                 </div>
                 <div class="row">
                     <div class="form-group col-md-4">
-                        <h:outputLabel for="nascimento" >Nascimento:</h:outputLabel>
+                        <h:outputLabel for="nascimento" >Nascimento: Formato(dd/mm/YYYY)</h:outputLabel>
                         <h:inputText id="nascimento" value="#{mbpessoa.pessoa.nascimento}" class="form-control" 
-                                     required="true" requiredMessage="A data de nascimento não pode ser vazia" >
-                            <f:convertDateTime pattern="dd/MM/yyyy"/>
-                            <f:ajax execute="@this" render="idade"></f:ajax>
+                                     required="true" requiredMessage="A data de nascimento não pode ser vazia" 
+                                     converter="calendarConverter">
+                            <f:ajax event="blur" execute="@this" render="idade"></f:ajax>
                         </h:inputText>
                     </div>
                     <h:message for="nascimento" styleClass="text text-danger" />
@@ -40,37 +40,39 @@
                     </div>
                     <div class="form-group col-md-4">
                         <h:outputLabel for="sexo" >Sexo:</h:outputLabel>
-                        <h:inputText id="sexo" value="#{mbpessoa.pessoa.sexo}" class="form-control" 
-                                     required="true" requiredMessage="O sexo não pode ser vazio" />
+                        <h:selectOneMenu id="sexo" value="#{mbpessoa.pessoa.sexo}" class="form-control" >
+                            <f:selectItems value="#{mbpessoa.sexos}" />
+                        </h:selectOneMenu>
                     </div>
                 </div>
                 <div class="row">
                     <div class="form-group col-md-4">
-                        <h:outputLabel for="cep" >CEP:</h:outputLabel>
+                        <h:outputLabel for="cep" >CEP: *Apenas números</h:outputLabel>
                         <h:inputText id="cep" value="#{mbpessoa.pessoa.logradouro.cep}" class="form-control" 
-                                     required="true" requiredMessage="O CEP não pode ser vazio" />
-                        <h:commandButton value="encontra cep"  action="#{mbpessoa.consultaCep()}" class="btn btn-primary" >
-                            <f:ajax execute="@this" render="estado,cidade,descLogradouro,bairro" ></f:ajax>
-                        </h:commandButton>
+                                     required="true" requiredMessage="O CEP não pode ser vazio"  />
                     </div>
-                    <h:message for="cep" styleClass="text text-danger" />
+                    <div class="form-group col-md-4">
+                        <h:commandButton id="btnConsultaCep" value="Buscar CEP" action="#{mbpessoa.consultaCep()}" class="btn btn-primary" >
+                            <f:ajax execute="btnConsultaCep" render="estado cidade descLogradouro bairro" ></f:ajax>
+                        </h:commandButton>
+                        <h:message for="cep" styleClass="text text-danger" />
+                    </div>
+                </div>
+                <div class="row">
                     <div class="form-group col-md-4">
                         <h:outputLabel for="estado" >Estado:</h:outputLabel>
-                        <h:selectOneMenu class="form-control" id="estado" value="#{mbpessoa.pessoa.logradouro.cidade.estado}" 
-                                         requiredMessage="O Estado não pode ser vazio" >
-                            <f:selectItem itemLabel="Selecione" itemValue="sn" noSelectionOption="true"/>
-                            <f:selectItems value="#{mbpessoa.estados}" var="varEstado" itemValue="#{varEstado}"
-                                           itemLabel="#{varEstado.nome}" />
+                        <h:selectOneMenu class="form-control" id="estado" value="#{mbpessoa.estado}" 
+                                         converter="estadoConverter" immediate="true" >
+                            <f:selectItems value="#{mbpessoa.estados}" var="varEstado" itemValue="#{varEstado}" 
+                                           itemLabel="#{varEstado.nome}" />   
+                            <f:ajax event="change" execute="@this" render="cidade" />
                         </h:selectOneMenu>
                     </div>
                     <h:message for="estado" styleClass="text text-danger" />
                     <div class="form-group col-md-4">
                         <h:outputLabel for="cidade" >Cidade:</h:outputLabel>
-                        <h:inputText id="cidade" value="#{mbpessoa.pessoa.logradouro.cidade.nome}" class="form-control" 
-                                     required="true" requiredMessage="A Cidade não pode ser vazia" />
-                        <h:selectOneMenu class="form-control" id="cidade" value="#{mbpessoa.pessoa.logradouro.cidade}" 
-                                         requiredMessage="A Cidade não pode ser vazia" >
-                            <f:selectItem itemLabel="Selecione" itemValue="sn" noSelectionOption="true"/>
+                        <h:selectOneMenu class="form-control" id="cidade" value="#{mbpessoa.cidade}"
+                                         converter="cidadeConverter" immediate="true" >
                             <f:selectItems value="#{mbpessoa.cidades}" var="varCidade" itemValue="#{varCidade}"
                                            itemLabel="#{varCidade.nome}" />
                         </h:selectOneMenu>

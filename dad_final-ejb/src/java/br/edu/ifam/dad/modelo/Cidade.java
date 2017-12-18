@@ -19,7 +19,7 @@ public class Cidade implements Serializable {
     private String codigoIBGE;
     @NotNull
     @ManyToOne
-    private Estado estado;
+    private Estado estado = new Estado();
 
     public Cidade() {
     }
@@ -54,5 +54,39 @@ public class Cidade implements Serializable {
 
     public void setEstado(Estado estado) {
         this.estado = estado;
+    }
+
+    @Override
+    public String toString() {
+        return "Cidade{" + "id=" + id + ", nome=" + nome + ", codigoIBGE=" + codigoIBGE + ", estado=" + estado.toString() + '}';
+    }
+
+    @Override
+    public int hashCode() {
+        int hash = 5;
+        hash = 67 * hash + (this.nome != null ? this.nome.hashCode() : 0);
+        hash = 67 * hash + (this.estado != null ? this.estado.hashCode() : 0);
+        return hash;
+    }
+
+    @Override
+    public boolean equals(Object obj) {
+        if (this == obj) {
+            return true;
+        }
+        if (obj == null) {
+            return false;
+        }
+        if (getClass() != obj.getClass()) {
+            return false;
+        }
+        final Cidade other = (Cidade) obj;
+        if ((this.nome == null) ? (other.nome != null) : !this.nome.equals(other.nome)) {
+            return false;
+        }
+        if (this.estado != other.estado && (this.estado == null || !this.estado.equals(other.estado))) {
+            return false;
+        }
+        return true;
     }
 }

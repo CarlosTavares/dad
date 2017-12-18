@@ -29,7 +29,7 @@ public class Pessoa implements Serializable {
     private String ocupacao;
     @NotNull
     @ManyToOne
-    private Logradouro logradouro;
+    private Logradouro logradouro = new Logradouro();
 
     public Pessoa() {
     }
@@ -57,12 +57,16 @@ public class Pessoa implements Serializable {
     public void setNascimento(Calendar nascimento) {
         this.nascimento = nascimento;
     }
-    
+
     public Integer getIdade() {
-        GregorianCalendar hoje = new GregorianCalendar();
-        int anoAtual = hoje.get(Calendar.YEAR);
-        int anoNascimento = this.getNascimento().get(Calendar.YEAR);
-        return anoAtual-anoNascimento;
+        if (this.getNascimento() != null) {
+            GregorianCalendar hoje = new GregorianCalendar();
+            int anoAtual = hoje.get(Calendar.YEAR);
+            int anoNascimento = this.getNascimento().get(Calendar.YEAR);
+            return anoAtual - anoNascimento;
+        } else {
+            return 0;
+        }
     }
 
     public Sexo getSexo() {
@@ -87,6 +91,12 @@ public class Pessoa implements Serializable {
 
     public void setLogradouro(Logradouro logradouro) {
         this.logradouro = logradouro;
+    }
+
+    @Override
+    public String toString() {
+        return "Pessoa{" + "id=" + id + ", nome=" + nome + ", nascimento=" + nascimento +
+                ", sexo=" + sexo + ", ocupacao=" + ocupacao + ", logradouro=" + logradouro.toString() + '}';
     }
 
 }

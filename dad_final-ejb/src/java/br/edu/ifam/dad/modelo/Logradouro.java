@@ -20,7 +20,7 @@ public class Logradouro implements Serializable {
     private String bairro;
     @NotNull
     @ManyToOne
-    private Cidade cidade;
+    private Cidade cidade = new Cidade();
 
     public Logradouro() {
     }
@@ -63,5 +63,10 @@ public class Logradouro implements Serializable {
 
     public void setCidade(Cidade cidade) {
         this.cidade = cidade;
+    }
+
+    @Override
+    public String toString() {
+        return "Logradouro{" + "id=" + id + ", descricao=" + descricao + ", cep=" + cep + ", bairro=" + bairro + ", cidade=" + cidade.toString() + '}';
     }
 }

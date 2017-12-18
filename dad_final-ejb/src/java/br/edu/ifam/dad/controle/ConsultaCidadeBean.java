@@ -6,6 +6,7 @@
 package br.edu.ifam.dad.controle;
 
 import br.edu.ifam.dad.modelo.Cidade;
+import br.edu.ifam.dad.modelo.Estado;
 import java.util.List;
 import javax.ejb.Stateless;
 import javax.persistence.EntityManager;
@@ -28,6 +29,12 @@ public class ConsultaCidadeBean {
 
     public List<Cidade> listarTodas() {
         Query query = em.createQuery("FROM Cidade");
+        List<Cidade> cidades = query.getResultList();
+        return cidades;
+    }
+
+    public List<Cidade> listarPorEstado(Estado estado) {
+        Query query = em.createQuery("FROM Cidade c where c.estado="+estado);
         List<Cidade> cidades = query.getResultList();
         return cidades;
     }
