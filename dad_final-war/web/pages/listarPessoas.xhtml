@@ -19,15 +19,12 @@
                         <h:outputText value="#{pessoa.nome}" />
                     </h:column>
                     <h:column>
-                        <f:facet name="header">Editar</f:facet>
-                        <h:commandButton action="#{mbpessoa.edita()}" value="Edita" >
-                            <f:param name="pessoa/id" value="#{pessoa.id}" />
+                        <h:commandButton action="#{mbpessoa.edita(pessoa.id)}" value="Editar" >
                         </h:commandButton>
                     </h:column>
                     <h:column>
-                        <f:facet name="header">Excluir</f:facet>
-                        <h:commandButton action="#{mbpessoa.exclui(school.id)}" 
-                                         class="btn btn-default" value="exclui" />
+                        <h:commandButton action="#{mbpessoa.exclui(pessoa.id)}" 
+                                         class="btn btn-default" value="Excluir" />
                     </h:column>
                 </h:dataTable>
                 <center><h:commandButton action="cadastrarPessoa.xhtml?faces-redirect=true" value="Cadastrar Pessoa" /></center>

@@ -14,9 +14,9 @@ import java.util.List;
 import javax.annotation.PostConstruct;
 import javax.ejb.EJB;
 import javax.faces.bean.ManagedBean;
+import javax.faces.bean.RequestScoped;
 import javax.faces.bean.SessionScoped;
-import javax.faces.context.FacesContext;
-import javax.faces.event.ValueChangeEvent;
+import javax.faces.event.AjaxBehaviorEvent;
 import javax.faces.model.SelectItem;
 
 /**
@@ -48,27 +48,43 @@ public class MBeanPessoa implements Serializable {
     public void iniciar() {
         this.pessoas = consultaPessoaBean.listarTodas();
         this.estados = consultaEstadoBean.listarTodas();
-        this.cidades = consultaCidadeBean.listarTodas();
+        //this.cidades = consultaCidadeBean.listarTodas();
     }
 
     public String insere() {
-        System.out.println(pessoa.toString());
         this.cidade.setEstado(estado);
         this.pessoa.getLogradouro().setCidade(cidade);
         pessoaBean.inserir(pessoa);
-        return "";
+        this.clearAll();
+        return "listarPessoa";
     }
-
-    public String edita() {
-        String pessoaId = FacesContext.getCurrentInstance().getExternalContext().getRequestParameterMap().get("pessoaId");
-        this.pessoa = consultaPessoaBean.consultar(new Long(pessoaId));
-        return "alteraPessoa.xhtml";
+    
+    private void clearAll() {
+        this.setPessoa(new Pessoa());
+        this.setCidade(new Cidade());
+        this.setEstado(new Estado());
+    }
+   
+    public String edita(Long pessoaId) {
+        this.setPessoa(consultaPessoaBean.consultar(pessoaId));
+        this.setCidade(this.getPessoa().getLogradouro().getCidade());
+        this.setEstado(this.getCidade().getEstado());
+        this.listaCidades(null);
+        return "/pages/alterarPessoa";
     }
 
     public String exclui(long id) {
         Pessoa pessoaExc = consultaPessoaBean.consultar(id);
         pessoaBean.remover(pessoaExc);
         return "";
+    }
+
+    public String altera() {
+        this.cidade.setEstado(estado);
+        this.pessoa.getLogradouro().setCidade(cidade);
+        pessoaBean.atualizar(pessoa);
+        this.clearAll();
+        return "listarPessoa";
     }
 
     public void consultaCep() {
@@ -83,8 +99,8 @@ public class MBeanPessoa implements Serializable {
         return consultaEstadoBean.consultar(id);
     }
 
-    public void listaCidades(ValueChangeEvent event) {
-        this.cidades = consultaCidadeBean.listarPorEstado(this.pessoa.getLogradouro().getCidade().getEstado());
+    public void listaCidades(AjaxBehaviorEvent event) {
+        this.setCidades(consultaCidadeBean.listarPorEstado(this.getEstado()));
     }
 
     public List<SelectItem> getSexos() {

@@ -62,17 +62,17 @@
                     <div class="form-group col-md-4">
                         <h:outputLabel for="estado" >Estado:</h:outputLabel>
                         <h:selectOneMenu class="form-control" id="estado" value="#{mbpessoa.estado}" 
-                                         converter="estadoConverter" immediate="true" >
+                                         converter="estadoConverter" >
                             <f:selectItems value="#{mbpessoa.estados}" var="varEstado" itemValue="#{varEstado}" 
                                            itemLabel="#{varEstado.nome}" />   
-                            <f:ajax event="change" execute="@this" render="cidade" />
+                            <f:ajax event="change" execute="@this" render="cidade" listener="#{mbpessoa.listaCidades}"/>
                         </h:selectOneMenu>
                     </div>
                     <h:message for="estado" styleClass="text text-danger" />
                     <div class="form-group col-md-4">
                         <h:outputLabel for="cidade" >Cidade:</h:outputLabel>
                         <h:selectOneMenu class="form-control" id="cidade" value="#{mbpessoa.cidade}"
-                                         converter="cidadeConverter" immediate="true" >
+                                         converter="cidadeConverter" >
                             <f:selectItems value="#{mbpessoa.cidades}" var="varCidade" itemValue="#{varCidade}"
                                            itemLabel="#{varCidade.nome}" />
                         </h:selectOneMenu>

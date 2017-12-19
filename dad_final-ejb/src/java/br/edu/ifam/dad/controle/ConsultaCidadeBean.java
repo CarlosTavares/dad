@@ -34,7 +34,8 @@ public class ConsultaCidadeBean {
     }
 
     public List<Cidade> listarPorEstado(Estado estado) {
-        Query query = em.createQuery("FROM Cidade c where c.estado="+estado);
+        Query query = em.createQuery("FROM Cidade c where c.estado= :estado");
+        query.setParameter("estado", estado);
         List<Cidade> cidades = query.getResultList();
         return cidades;
     }

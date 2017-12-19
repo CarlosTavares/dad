@@ -1,6 +1,7 @@
 package br.edu.ifam.dad.modelo;
 
 import java.io.Serializable;
+import javax.persistence.CascadeType;
 import javax.persistence.Entity;
 import javax.persistence.GeneratedValue;
 import javax.persistence.GenerationType;
@@ -19,8 +20,8 @@ public class Logradouro implements Serializable {
     private String cep;
     private String bairro;
     @NotNull
-    @ManyToOne
-    private Cidade cidade = new Cidade();
+    @ManyToOne(cascade = CascadeType.MERGE)
+    private Cidade cidade;
 
     public Logradouro() {
     }
@@ -68,5 +69,33 @@ public class Logradouro implements Serializable {
     @Override
     public String toString() {
         return "Logradouro{" + "id=" + id + ", descricao=" + descricao + ", cep=" + cep + ", bairro=" + bairro + ", cidade=" + cidade.toString() + '}';
+    }
+
+    @Override
+    public int hashCode() {
+        int hash = 3;
+        hash = 29 * hash + (int) (this.id ^ (this.id >>> 32));
+        return hash;
+    }
+
+    @Override
+    public boolean equals(Object obj) {
+        if (this == obj) {
+            return true;
+        }
+        if (obj == null) {
+            return false;
+        }
+        if (getClass() != obj.getClass()) {
+            return false;
+        }
+        final Logradouro other = (Logradouro) obj;
+        if ((this.cep == null) ? (other.cep != null) : !this.cep.equals(other.cep)) {
+            return false;
+        }
+        if (this.cidade != other.cidade && (this.cidade == null || !this.cidade.equals(other.cidade))) {
+            return false;
+        }
+        return true;
     }
 }

@@ -3,6 +3,7 @@ package br.edu.ifam.dad.modelo;
 import java.io.Serializable;
 import java.util.Calendar;
 import java.util.GregorianCalendar;
+import javax.persistence.CascadeType;
 import javax.persistence.Entity;
 import javax.persistence.EnumType;
 import javax.persistence.Enumerated;
@@ -28,7 +29,7 @@ public class Pessoa implements Serializable {
     private Sexo sexo;
     private String ocupacao;
     @NotNull
-    @ManyToOne
+    @ManyToOne(cascade = CascadeType.ALL)
     private Logradouro logradouro = new Logradouro();
 
     public Pessoa() {
