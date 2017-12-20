@@ -20,7 +20,7 @@ public class Logradouro implements Serializable {
     private String cep;
     private String bairro;
     @NotNull
-    @ManyToOne(cascade = CascadeType.MERGE)
+    @ManyToOne(cascade = {CascadeType.ALL})
     private Cidade cidade;
 
     public Logradouro() {
@@ -68,7 +68,11 @@ public class Logradouro implements Serializable {
 
     @Override
     public String toString() {
-        return "Logradouro{" + "id=" + id + ", descricao=" + descricao + ", cep=" + cep + ", bairro=" + bairro + ", cidade=" + cidade.toString() + '}';
+        return "Logradouro{" + "id=" + id 
+                + ", descricao=" + descricao 
+                + ", cep=" + cep 
+                + ", bairro=" + bairro 
+                + ", cidade=" + cidade.toString() + '}';
     }
 
     @Override

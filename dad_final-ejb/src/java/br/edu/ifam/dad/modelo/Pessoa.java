@@ -29,7 +29,7 @@ public class Pessoa implements Serializable {
     private Sexo sexo;
     private String ocupacao;
     @NotNull
-    @ManyToOne(cascade = CascadeType.ALL)
+    @ManyToOne(cascade = {CascadeType.PERSIST,CascadeType.MERGE})
     private Logradouro logradouro = new Logradouro();
 
     public Pessoa() {

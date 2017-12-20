@@ -66,7 +66,7 @@
                     <div class="form-group col-md-4">
                         <h:outputLabel for="cidade" >Cidade:</h:outputLabel>
                         <h:selectOneMenu class="form-control" id="cidade" value="#{mbpessoa.cidade}"
-                                         converter="cidadeConverter" >
+                                         converter="cidadeXMLConverter" >
                             <f:selectItems value="#{mbpessoa.cidades}" var="varCidade" itemValue="#{varCidade}"
                                            itemLabel="#{varCidade.nome}" />
                         </h:selectOneMenu>

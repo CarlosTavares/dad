@@ -10,6 +10,7 @@ import br.edu.ifam.dad.modelo.Estado;
 import java.util.List;
 import javax.ejb.Stateless;
 import javax.persistence.EntityManager;
+import javax.persistence.NoResultException;
 import javax.persistence.PersistenceContext;
 import javax.persistence.Query;
 
@@ -25,6 +26,19 @@ public class ConsultaCidadeBean {
 
     public Cidade consultar(long id) {
         return em.find(Cidade.class, id);
+    }
+
+    public Cidade consultar(String nome, String uf) {
+        Query query = em.createQuery("FROM Cidade c where c.estado.sigla= :uf and c.nome= :nome");
+        query.setParameter("uf", uf);
+        query.setParameter("nome", nome);
+        Cidade cidade;
+        try {
+            cidade = (Cidade) query.getSingleResult();
+        } catch (NoResultException exp) {
+            cidade = null;
+        }
+        return cidade;
     }
 
     public List<Cidade> listarTodas() {
